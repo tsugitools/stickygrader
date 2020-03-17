@@ -29,6 +29,8 @@ if ( ! $file_id ) {
 
 $url = BlobUtil::getAccessUrlForBlob($file_id);
 
+$api_endpoint = $CFG->wwwroot . '/api/stickygrader/' . session_id() . ':' . $user_id;
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -141,6 +143,8 @@ window.onload=function(){
 <script src='<?= $CFG->staticroot ?>/js/stickygrader/stickygrader.js'></script>
 
 <script>
+
+var api_endpoint = '<?= $api_endpoint ?>';
 $(document).ready(function () {
 
     $("#board").height($(document).height());
@@ -157,7 +161,7 @@ $(document).ready(function () {
     // onChange : function(id, top, left, text)
     StickyGrader.options.onChange = StickyGrader.onChange;
 
-    StickyGrader.options.service = 'store/';
+    StickyGrader.options.service = api_endpoint;
     StickyGrader.loadNotes();
 
     return false;

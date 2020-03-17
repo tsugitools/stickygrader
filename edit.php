@@ -71,6 +71,7 @@ $json = json_decode($json);
 if ( $json == null ) $json = new \stdClass();
 $lock = isset($json->lock) && $json->lock;
 $annotations = isset($json->annotations) ? $json->annotations : array();
+if ( is_object($annotations) ) $annotations = (array) $annotations;
 
 $menu = new \Tsugi\UI\MenuSet();
 if ( $file_id ) {
@@ -108,20 +109,13 @@ SettingsForm::start();
 <p>
 This program makes use of the following technologies:
 <ul>
-<li> Online conversion from PDF to HTML
-<a href="https://cloudconvert.com" target="_blank">CloudConvert API</a> </li>
-<li>Open Source JavaScript annotation software from 
-<a href="https://annotatorjs.org/" target="_blank">Annotator JS</a></li>
+<li>JavaScript PDF Rendering library from Mozilla
+<a href="https://mozilla.github.io/pdf.js/" target="_blank">PDF.JS</a> </li>
+<li>JavaScript sticky grader
+<a href="https://www.stickygrader.com/" target="_blank">Sticky Grader</a></li>
 </ul>
 </p>
-<?php if ( $LAUNCH->user->instructor ) { ?>
-<p>
-The CloudConvert API requires a license.  There are free licenses available
-for a few conversions per day.  Use the <b>Configure</b> option to set your
-license key across all the links for a particular class.
-</p>
 <?php
-} // instructor
 
 SettingsForm::done();
 SettingsForm::end();
