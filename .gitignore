@@ -1,0 +1,9 @@
+.DS_Store
+*.swp
+
+old
+test
+vendor
+output
+composer.lock
+
