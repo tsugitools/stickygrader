@@ -39,7 +39,7 @@ if ( is_object($annotations) ) $annotations = (array) $annotations;
 
 $inst_note = $LAUNCH->result->getNote($user_id );
 
-if( U::get($_POST, 'deleteAnnotations') ) {
+if( U::get($_POST, 'resetAnnotations') ) {
     $json->annotations = array();
     $_SESSION['success'] = 'Annotations reset';
     $json = json_encode($json);
@@ -143,7 +143,9 @@ if ( $file_id ) {
 ?>
 <p>
 <form method="post">
-<input type="submit" id="submit" name="deleteAnnotations" class="btn btn-primary" value="<?= __('Delete Annotations') ?>">
+<input type="submit" id="submit" name="resetAnnotations" class="btn btn-warning" 
+onclick="return confirm('Are you sure you want to reset the annotations?');"
+value="<?= __('Reset Annotations') ?>">
 </form>
 </p>
 <?php
