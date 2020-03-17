@@ -71,6 +71,7 @@ $json = $LAUNCH->result->getJsonForUser($user_id);
 $json = json_decode($json);
 if ( $json == null ) $json = new \stdClass();
 $lock = isset($json->lock) && $json->lock;
+$annotations = isset($json->annotations) ? $json->annotations : array();
 
 $menu = new \Tsugi\UI\MenuSet();
 if ( $file_id ) {
