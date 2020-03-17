@@ -29,6 +29,7 @@ $self_url = addSession('grade.php?user_id='.$user_id);
 $row = GradeUtil::gradeLoad($user_id);
 
 $annotations = Annotate::loadAnnotations($LAUNCH, $user_id);
+if ( is_object($annotations) ) $annotations = (array) $annotations;
 $file_id = $LAUNCH->result->getJsonKeyForUser('file_id', false, $user_id);
 
 // Load and parse the old JSON
