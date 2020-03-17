@@ -112,7 +112,7 @@ This program makes use of the following technologies:
 <li>JavaScript PDF Rendering library from Mozilla
 <a href="https://mozilla.github.io/pdf.js/" target="_blank">PDF.JS</a> </li>
 <li>JavaScript sticky grader
-<a href="https://www.stickygrader.com/" target="_blank">Sticky Grader</a></li>
+<a href="https://github.com/csev/stickygrader" target="_blank">Sticky Grader</a></li>
 </ul>
 </p>
 <?php
