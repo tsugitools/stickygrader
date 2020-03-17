@@ -1,10 +1,10 @@
 <?php
 
 $REGISTER_LTI2 = array(
-"name" => "PDF PostIT",
+"name" => "Sticky Grader",
 "FontAwesome" => "fa-file-pdf-o",
-"short_name" => "PDFPostIT",
-"description" => "A tool to turn in a PDF file and allow it to be annotated  with PostIT notes and graded.",
+"short_name" => "StickyGrader",
+"description" => "A tool to turn in a PDF file and allow it to be annotated with sticky notes and graded.",
     // By default, accept launch messages..
     "messages" => array("launch"),
     "privacy_level" => "name_only",  // anonymous, name_only, public
@@ -12,7 +12,7 @@ $REGISTER_LTI2 = array(
     "languages" => array(
         "English",
     ),
-    "source_url" => "https://github.com/tsugitools/postitator",
+    "source_url" => "https://github.com/tsugitools/stickygrader",
     // For now Tsugi tools delegate this to /lti/store
     "placements" => array(
         /*

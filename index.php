@@ -34,7 +34,7 @@ $url = BlobUtil::getAccessUrlForBlob($file_id);
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>PDF PostITator</title>
+  <title>PDF StickyGrader</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
@@ -47,7 +47,7 @@ $url = BlobUtil::getAccessUrlForBlob($file_id);
   }
 </style>
 
-    <link rel='stylesheet' href='<?= $CFG->staticroot ?>/js/postitator/postitator.css'>
+    <link rel='stylesheet' href='<?= $CFG->staticroot ?>/js/stickygrader/stickygrader.css'>
 
 
 <script type="text/javascript">//<![CDATA[
@@ -138,33 +138,33 @@ window.onload=function(){
 
 <script src="<?= $CFG->staticroot ?>/js/jquery-1.11.3.js"></script>
 <script src="<?= $CFG->staticroot ?>/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-<script src='<?= $CFG->staticroot ?>/js/postitator/postitator.js'></script>
+<script src='<?= $CFG->staticroot ?>/js/stickygrader/stickygrader.js'></script>
 
 <script>
 $(document).ready(function () {
 
     $("#board").height($(document).height());
 
-    $("#prev_note").click(PostITator.prevNote);
-    $("#add_new").click(PostITator.newNote);
-    $("#next_note").click(PostITator.nextNote);
+    $("#prev_note").click(StickyGrader.prevNote);
+    $("#add_new").click(StickyGrader.newNote);
+    $("#next_note").click(StickyGrader.nextNote);
 
-    $('.remove').click(PostITator.deleteNote);
-    // PostITator.newNote();
+    $('.remove').click(StickyGrader.deleteNote);
+    // StickyGrader.newNote();
 
     // onDelete : function(id, top, left, text)
-    PostITator.options.onDelete = PostITator.onDelete;
+    StickyGrader.options.onDelete = StickyGrader.onDelete;
     // onChange : function(id, top, left, text)
-    PostITator.options.onChange = PostITator.onChange;
+    StickyGrader.options.onChange = StickyGrader.onChange;
 
-    PostITator.options.service = 'store/';
-    PostITator.loadNotes();
+    StickyGrader.options.service = 'store/';
+    StickyGrader.loadNotes();
 
     return false;
 });
 
 function clearAnnotations() {
-    PostITator.deleteAll();
+    StickyGrader.deleteAll();
 }
 //# sourceURL=pen.js
 </script>
