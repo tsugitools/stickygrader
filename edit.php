@@ -48,9 +48,8 @@ foreach($_FILES as $fdes) {
 
 if ( $thefdes ) {
     $file_id = BlobUtil::uploadToBlob($thefdes);
-    $_SESSION['success'] = "File Uploaded";
     $LAUNCH->result->setJsonKey('file_id', $file_id);
-    header( 'Location: '.addSession('edit.php') ) ;
+    header( 'Location: '.addSession('index.php') ) ;
     return;
 }
 
