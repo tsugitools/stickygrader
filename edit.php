@@ -21,6 +21,33 @@ if ( SettingsForm::handleSettingsPost() ) {
     return;
 }
 
+$next = U::safe_href(U::get($_GET, 'next', 'edit.php'));
+$user_id = U::safe_href(U::get($_GET, 'user_id'));
+if ( $user_id && ! $LAUNCH->user->instructor ) {
+    http_response_code(404);
+    die('Not authorized');
+}
+if ( ! $user_id ) $user_id = $LAUNCH->user->id;
+
+// Load and parse the old JSON
+$json = $LAUNCH->result->getJsonForUser($user_id);
+$json = json_decode($json);
+if ( $json == null ) $json = new \stdClass();
+$lock = isset($json->lock) && $json->lock;
+$annotations = isset($json->annotations) ? $json->annotations : array();
+if ( is_object($annotations) ) $annotations = (array) $annotations;
+
+$inst_note = $LAUNCH->result->getNote($user_id );
+
+if( U::get($_POST, 'deleteAnnotations') ) {
+    $json->annotations = array();
+    $_SESSION['success'] = 'Annotations reset';
+    $json = json_encode($json);
+    $LAUNCH->result->setJson($json);
+    header( 'Location: '.addSession('edit.php') ) ;
+    return;
+}
+
 // Sanity check input
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && count($_POST) < 1 ) {
     $_SESSION['error'] = 'File upload size exceeded, please re-upload a smaller file';
@@ -54,24 +81,6 @@ if ( $thefdes ) {
 }
 
 $file_id = $LAUNCH->result->getJsonKey('file_id');
-
-$next = U::safe_href(U::get($_GET, 'next', 'edit.php'));
-$user_id = U::safe_href(U::get($_GET, 'user_id'));
-if ( $user_id && ! $LAUNCH->user->instructor ) {
-    http_response_code(404);
-    die('Not authorized');
-}
-if ( ! $user_id ) $user_id = $LAUNCH->user->id;
-
-$inst_note = $LAUNCH->result->getNote($user_id );
-
-// Load and parse the old JSON
-$json = $LAUNCH->result->getJsonForUser($user_id);
-$json = json_decode($json);
-if ( $json == null ) $json = new \stdClass();
-$lock = isset($json->lock) && $json->lock;
-$annotations = isset($json->annotations) ? $json->annotations : array();
-if ( is_object($annotations) ) $annotations = (array) $annotations;
 
 $menu = new \Tsugi\UI\MenuSet();
 if ( $file_id ) {
@@ -128,10 +137,17 @@ if ( strlen($inst_note) > 0 ) {
 }
 
 if ( $file_id ) {
+    echo("<p>Your file has been uploaded.</p>\n");
     if ( count($annotations) > 0 ) {
         echo("<p>".__('Annotations:').' '.count($annotations)."</p>\n");
+?>
+<p>
+<form method="post">
+<input type="submit" id="submit" name="deleteAnnotations" class="btn btn-primary" value="<?= __('Delete Annotations') ?>">
+</form>
+</p>
+<?php
     }
-    echo("<p>Your file has been uploaded.</p>\n");
 
     $OUTPUT->footer();
     return;
