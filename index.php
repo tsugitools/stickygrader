@@ -129,9 +129,9 @@ window.onload=function(){
     <a href="javascript:;" class="button" id="prev_note">&lt;</a>
     <a href="javascript:;" class="button" id="add_new">+</a>
     <a href="javascript:;" class="button" id="next_note">&gt;</a>
-    <a href="edit.php" class="button">?</a>
-
+    <a href="edit.php" class="button">☰</a>
     </div>
+
     <div id="board" style="position: absolute; top: 1; left: 1; width: 100%;">
     </div>
     <script src="https://unpkg.com/pdfjs-dist@2.2.228/build/pdf.js"></script>
