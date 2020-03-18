@@ -63,17 +63,19 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
 
     $success = '';
 
-    $result = Result::lookupResultBypass($user_id);
-    $result['grade'] = -1; // Force resend
-    $debug_log = array();
-    $status = LTIX::gradeSend($computed_grade, $result, $debug_log); // This is the slow bit
-    if ( $status === true ) {
-        if ( strlen($success) > 0 ) $success .= ', ';
-        $success .= 'Grade submitted to server';
-    } else {
-        error_log("Problem sending grade ".$status);
-        $_SESSION['error'] = 'Error sending grade to: '.$status;
-        $_SESSION['debug_log'] = $debug_log;
+    if ( $percent !== null ) {
+        $result = Result::lookupResultBypass($user_id);
+        $result['grade'] = -1; // Force resend
+        $debug_log = array();
+        $status = LTIX::gradeSend($computed_grade, $result, $debug_log); // This is the slow bit
+        if ( $status === true ) {
+            if ( strlen($success) > 0 ) $success .= ', ';
+            $success .= 'Grade submitted to server';
+        } else {
+            error_log("Problem sending grade ".$status);
+            $_SESSION['error'] = 'Error sending grade to: '.$status;
+            $_SESSION['debug_log'] = $debug_log;
+        }
     }
 
     $update_json = false;
@@ -97,8 +99,12 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         $LAUNCH->result->setJsonForUser($json, $user_id);
     }
 
-    $inst_note = U::get($_POST, 'inst_note');
-    $LAUNCH->result->setNote(U::get($_POST, 'inst_note'), $user_id );
+    $new_inst_note = U::get($_POST, 'inst_note');
+    if ( $new_inst_note != $inst_note ) {
+        $LAUNCH->result->setNote($new_inst_note, $user_id );
+        if ( strlen($success) > 0 ) $success .= ', ';
+        $success .= 'Instructor note updated';
+    }
 
     if ( strlen($success) > 0 ) $_SESSION['success'] = $success;
 
@@ -108,7 +114,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
 
 
 $menu = new \Tsugi\UI\MenuSet();
-$menu->addLeft('Back to all grades', $gradesurl);
+$menu->addLeft('Back to all students', $gradesurl);
 
 // View
 $OUTPUT->header();
@@ -138,6 +144,8 @@ echo('<form method="post">
 if ( $next_user_id_ungraded !== false ) {
       echo('<input type="hidden" name="next_user_id_ungraded" value="'.$next_user_id_ungraded.'">');
 }
+
+if ( $old_percent == 0 ) $old_percent = '';
 
 echo('<label for="percent">Percentage (0-100)</label>
       <input type="number" name="percent" id="grade" min="0" max="100" value="'.$old_percent.'"/><br/>');
