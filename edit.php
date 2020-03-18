@@ -96,6 +96,7 @@ if ( $LAUNCH->user->instructor ) {
     if ( $CFG->launchactivity ) {
         $submenu->addLink(__('Analytics'), 'analytics');
     }
+    if ( strlen($inst_note) > 0 ) $menu->addRight(__('Note'), '#', /* push */ false, 'data-toggle="modal" data-target="#noteModal"');
     $menu->addRight(__('Help'), '#', /* push */ false, 'data-toggle="modal" data-target="#helpModal"');
     $menu->addRight(__('Instructor'), $submenu, /* push */ false);
 } else {
