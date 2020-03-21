@@ -22,6 +22,7 @@ $REGISTER_LTI2 = array(
         "tool_configuration", "user_navigation"
         */
     ),
+    "video" => "https://www.youtube.com/watch?v=zBvPbETiFyI",
     "screen_shots" => array(
         /*
         "store/screen-01.png",
