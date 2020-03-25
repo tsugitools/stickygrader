@@ -143,7 +143,7 @@ if ( $file_id ) {
         echo("<p>".__('Annotations:').' '.count($annotations)."</p>\n");
 ?>
 <p>
-<form method="post">
+<form method="post" if="upload_form">
 <input type="submit" id="submit" name="resetAnnotations" class="btn btn-warning" 
 onclick="return confirm('Are you sure you want to reset the annotations?');"
 value="<?= __('Reset Annotations') ?>">
@@ -158,10 +158,13 @@ value="<?= __('Reset Annotations') ?>">
 
 ?>
 <span class="fa fa-file-pdf-o fa-3x" style="color: var(--primary); float:right;"></span>
-<form action="<?= addSession('edit.php') ?>" method="post" id="upload_form" enctype="multipart/form-data">
+<!-- https://stackoverflow.com/a/8667695 -->
+<form action="<?= addSession('edit.php') ?>" method="post" enctype="multipart/form-data">
 <p>
 <label class="btn btn-default">
-    <input type="file" class="file-upload" id="thepdf" name="result_<?= $LAUNCH->result->id ?>">
+    <input type="file" data-max-size="<?= $upload_max_size_bytes ?>" 
+        data-max-text="Error: {0} is > <?= $upload_max_size ?>"
+        accept="application/pdf" name="result_<?= $LAUNCH->result->id ?>">
 </label>
 </p>
 <p>
@@ -174,34 +177,19 @@ Please select a PDF file to upload.
 <?php
 $OUTPUT->footerStart();
 ?>
-<!-- https://stackoverflow.com/questions/2472422/django-file-upload-size-limit -->
 <script>
+// Set up the checking of uploaded file size in the browser
+// Call this before adding more submit() events to these forms so the file check event runs first
+
+// https://stackoverflow.com/questions/8212041/is-it-possible-to-validate-the-size-and-type-of-input-file-in-html5
+// https://stackoverflow.com/a/11799218
+tsugiCheckFileMaxSize();
+
 $("#upload_form").submit(function(e) {
-    console.log('Checking file size');
-    if (window.File && window.FileReader && window.FileList && window.Blob) {
-        var file = $('#thepdf')[0].files[0];
-        if ( typeof file == 'undefined' ) {
-            alert("Please select a file");
-            e.preventDefault();
-            return;
-        }
-        if ( file.type != 'application/pdf') {
-            console.log('Type', file.type);
-             alert("File " + file.name + " expecting PDF, found " + file.type );
-            e.preventDefault();
-            return;
-        }
-        if (file && file.size > <?= $upload_max_size_bytes ?> ) {
-            alert("File " + file.name + " of type " + file.type + " must be < <?= $upload_max_size ?>");
-            e.preventDefault();
-            return;
-        }
         $("#spinner").show();
         $("#submit").attr("disabled", true);
-        return;  // Allow POST to happen
-    }
-    e.preventDefault();
 });
+
 </script>
 <?php
 $OUTPUT->footerEnd();
