@@ -10,7 +10,7 @@ use \Tsugi\Core\LTIX;
 use \Tsugi\Grades\GradeUtil;
 use \Tsugi\Blob\BlobUtil;
 
-session_start();
+$LTI = LTIX::session_start();
 
 $user_id = U::safe_href(U::get($_REQUEST, 'user_id'));
 if ( ! $user_id ) {
