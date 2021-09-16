@@ -31,12 +31,9 @@ $url = BlobUtil::getAccessUrlForBlob($file_id);
 
 $api_endpoint = $CFG->wwwroot . '/api/stickygrader/' . session_id() . ':' . $user_id;
 
+$OUTPUT->header();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>PDF StickyGrader</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="robots" content="noindex, nofollow">
   <meta name="googlebot" content="noindex, nofollow">
@@ -105,7 +102,7 @@ window.onload=function(){
     var loadingTask = pdfjsLib.getDocument(url);
 
     loadingTask.promise.then(function(pdf) {
-        console.log('PDF loaded');
+        console.debug('PDF loaded');
 
         //Set PDFJS global object (so we can easily access in our page functions
         thePDF = pdf;
@@ -124,9 +121,9 @@ window.onload=function(){
 }
 
 //]]></script>
-
-</head>
-    <body>
+<?php
+$OUTPUT->bodyStart();
+?>
     <div id="button_div">
     <a href="javascript:;" class="button" id="prev_note">&lt;</a>
     <a href="javascript:;" class="button" id="add_new">+</a>
@@ -136,10 +133,11 @@ window.onload=function(){
 
     <div id="board" style="position: absolute; top: 1; left: 1; width: 100%;">
     </div>
+<?php
+$OUTPUT->footerStart();
+?>
     <script src="https://unpkg.com/pdfjs-dist@2.2.228/build/pdf.js"></script>
 
-<script src="<?= $CFG->staticroot ?>/js/jquery-1.11.3.js"></script>
-<script src="<?= $CFG->staticroot ?>/js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
 <script src='<?= $CFG->staticroot ?>/js/stickygrader/stickygrader.js'></script>
 
 <script>
@@ -172,4 +170,5 @@ function clearAnnotations() {
 }
 //# sourceURL=pen.js
 </script>
-</body>
+<?php
+$OUTPUT->footerEnd();
