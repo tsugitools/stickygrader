@@ -67,7 +67,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         $result = Result::lookupResultBypass($user_id);
         $result['grade'] = -1; // Force resend
         $debug_log = array();
-        $status = LTIX::gradeSend($computed_grade, $result, $debug_log); // This is the slow bit
+        $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log); // This is the slow bit
         if ( $status === true ) {
             if ( strlen($success) > 0 ) $success .= ', ';
             $success .= 'Grade submitted to server';
@@ -172,8 +172,5 @@ if ( $next_user_id_ungraded !== false ) {
     echo(' <input type="submit" name="instSubmitAdvance" value="Update and Go To Next Ungraded Student" class="btn btn-primary">');
 }
 echo('</form>');
-
-
-
 
 $OUTPUT->footer();
