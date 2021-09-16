@@ -178,7 +178,7 @@ Please select a PDF file to upload.
 $OUTPUT->footerStart();
 ?>
 <script>
-console.log("In Edit...");
+console.debug("In Edit...");
 // Set up the checking of uploaded file size in the browser
 // Call this before adding more submit() events to these forms so the file check event runs first
 
