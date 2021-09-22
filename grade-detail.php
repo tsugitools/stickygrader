@@ -3,6 +3,7 @@ require_once "../config.php";
 \Tsugi\Core\LTIX::getConnection();
 
 use \Tsugi\Util\U;
+use \Tsugi\Util\LTI13;
 use \Tsugi\UI\Table;
 use \Tsugi\Core\Annotate;
 use \Tsugi\Core\Result;
@@ -67,7 +68,11 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         $result = Result::lookupResultBypass($user_id);
         $result['grade'] = -1; // Force resend
         $debug_log = array();
-        $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log); // This is the slow bit
+        $extra13 = array(
+            LTI13::ACTIVITY_PROGRESS => LTI13::ACTIVITY_PROGRESS_COMPLETED,
+            LTI13::GRADING_PROGRESS => LTI13::GRADING_PROGRESS_FULLYGRADED,
+        );
+        $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log, $extra13); // This is the slow bit
         if ( $status === true ) {
             if ( strlen($success) > 0 ) $success .= ', ';
             $success .= 'Grade submitted to server';
