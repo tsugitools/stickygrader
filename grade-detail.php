@@ -18,12 +18,14 @@ if ( ! $user_id ) {
     die('user_id is required');
 }
 
+$for_user = U::safe_href(U::get($_REQUEST, 'for_user'));
 // Set up the GET Params that we want to carry around.
 $getparms = $_GET;
 unset($getparms['delete']);
 unset($getparms['resend']);
 
 $self_url = addSession('grade.php?user_id='.$user_id);
+if ( $for_user ) $self_url .= '&for_user=yes';
 
 // Get the user's grade data also checks session
 // and sets $LAUNCH
@@ -117,9 +119,9 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     return;
 }
 
-
 $menu = new \Tsugi\UI\MenuSet();
 $menu->addLeft('Back to all students', $gradesurl);
+if ( $for_user ) $menu = false;
 
 // View
 $OUTPUT->header();
