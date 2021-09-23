@@ -78,7 +78,7 @@ if ( $thefdes ) {
     $file_id = BlobUtil::uploadToBlob($thefdes);
     $LAUNCH->result->setJsonKey('file_id', $file_id);
     // Notify LMS of a submission
-    $grade = 0.0;
+    $grade = null;
     $row = false;
     $debug_log = false;
     $extra13 = array(
