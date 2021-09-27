@@ -16,6 +16,9 @@ if ( $next != 'edit.php' ) $next_text = __('Back');
 
 $user_id = U::safe_href(U::get($_GET, 'user_id'));
 
+$message_type = $LAUNCH->ltiMessageType();
+error_log("message_type=".$message_type);
+
 $for_user_checked = U::get($_SESSION, 'for_user_checked');
 if ( ! $for_user_checked && ! $user_id ) {
     $for_user_claim = $LAUNCH->ltiJWTClaim(LTI13::FOR_USER_CLAIM);

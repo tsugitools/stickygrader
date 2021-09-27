@@ -23,6 +23,14 @@ $REGISTER_LTI2 = array(
         */
     ),
     "video" => "https://www.youtube.com/watch?v=zBvPbETiFyI",
+    "submissionReview" => array(
+        "reviewableStatus" => array("InProgress", "Submitted", "Completed"),
+        "label" => "StickyGrader",
+        // "url" => "https://platform.example.com/act/849023/sub",
+        "custom" => array(
+            "review_towel" => "42",
+        ),
+    ),
     "screen_shots" => array(
         /*
         "store/screen-01.png",
