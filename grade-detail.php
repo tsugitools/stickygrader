@@ -65,6 +65,12 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     $computed_grade = $percent / 100.0;
 
     $success = '';
+    $new_inst_note = U::get($_POST, 'inst_note');
+    if ( $new_inst_note != $inst_note ) {
+        $LAUNCH->result->setNote($new_inst_note, $user_id );
+        if ( strlen($success) > 0 ) $success .= ', ';
+        $success .= 'Instructor note updated';
+    }
 
     if ( $percent !== null ) {
         $result = Result::lookupResultBypass($user_id);
@@ -104,13 +110,6 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     if ( $update_json ) {
         $json = json_encode($json);
         $LAUNCH->result->setJsonForUser($json, $user_id);
-    }
-
-    $new_inst_note = U::get($_POST, 'inst_note');
-    if ( $new_inst_note != $inst_note ) {
-        $LAUNCH->result->setNote($new_inst_note, $user_id );
-        if ( strlen($success) > 0 ) $success .= ', ';
-        $success .= 'Instructor note updated';
     }
 
     if ( strlen($success) > 0 ) $_SESSION['success'] = $success;
