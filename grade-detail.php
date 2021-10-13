@@ -11,21 +11,25 @@ use \Tsugi\Core\LTIX;
 use \Tsugi\Grades\GradeUtil;
 use \Tsugi\Blob\BlobUtil;
 
-$LTI = LTIX::session_start();
+$LAUNCH = LTIX::requireData();
 
 $user_id = U::safe_href(U::get($_REQUEST, 'user_id'));
 if ( ! $user_id ) {
     die('user_id is required');
 }
 
-$for_user = U::safe_href(U::get($_REQUEST, 'for_user'));
+$for_user = false;
+if (  isset($LAUNCH->for_user) ) {
+    $for_user = true;
+    $user_id = $LAUNCH->for_user->id;
+}
+
 // Set up the GET Params that we want to carry around.
 $getparms = $_GET;
 unset($getparms['delete']);
 unset($getparms['resend']);
 
 $self_url = addSession('grade.php?user_id='.$user_id);
-if ( $for_user ) $self_url .= '&for_user=yes';
 
 // Get the user's grade data also checks session
 // and sets $LAUNCH
