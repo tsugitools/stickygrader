@@ -14,14 +14,14 @@ use \Tsugi\Blob\BlobUtil;
 $LAUNCH = LTIX::requireData();
 
 $user_id = U::safe_href(U::get($_REQUEST, 'user_id'));
-if ( ! $user_id ) {
-    die('user_id is required');
-}
-
 $for_user = false;
-if (  isset($LAUNCH->for_user) ) {
+if ( ! $user_id && isset($LAUNCH->for_user) ) {
     $for_user = true;
     $user_id = $LAUNCH->for_user->id;
+}
+
+if ( ! $user_id ) {
+    die('user_id is required');
 }
 
 // Set up the GET Params that we want to carry around.
