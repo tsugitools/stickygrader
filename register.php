@@ -26,7 +26,7 @@ $REGISTER_LTI2 = array(
     "submissionReview" => array(
         "reviewableStatus" => array("InProgress", "Submitted", "Completed"),
         "label" => "StickyGrader",
-        // "url" => "https://platform.example.com/act/849023/sub",
+        "url" => "grade-detail.php",  // A relative URL in this context
         "custom" => array(
             "review_towel" => "42",
         ),
