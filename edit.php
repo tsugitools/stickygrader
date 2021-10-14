@@ -77,15 +77,17 @@ foreach($_FILES as $fdes) {
 if ( $thefdes ) {
     $file_id = BlobUtil::uploadToBlob($thefdes);
     $LAUNCH->result->setJsonKey('file_id', $file_id);
-    // Notify LMS of a submission
-    $grade = null;
-    $row = false;
-    $debug_log = false;
-    $extra13 = array(
-        LTI13::ACTIVITY_PROGRESS => LTI13::ACTIVITY_PROGRESS_SUBMITTED,
-        LTI13::GRADING_PROGRESS => LTI13::GRADING_PROGRESS_PENDINGMANUAL,
-    );
-    $LAUNCH->result->gradeSend($grade, $row, $debug_log, $extra13);
+    // Notify LMS of a submission for LTI13
+    if ( $LAUNCH->isLTI13() ) {
+        $grade = null;
+        $row = false;
+        $debug_log = false;
+        $extra13 = array(
+            LTI13::ACTIVITY_PROGRESS => LTI13::ACTIVITY_PROGRESS_SUBMITTED,
+            LTI13::GRADING_PROGRESS => LTI13::GRADING_PROGRESS_PENDINGMANUAL,
+        );
+        $LAUNCH->result->gradeSend($grade, $row, $debug_log, $extra13);
+    }
     header( 'Location: '.addSession('index.php') ) ;
     return;
 }
