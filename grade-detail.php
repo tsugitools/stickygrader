@@ -21,7 +21,9 @@ if ( ! $user_id && isset($LAUNCH->for_user) ) {
 }
 
 if ( ! $user_id ) {
-    die('user_id is required');
+    $_SESSION['error'] = 'User has no submission';
+    header( 'Location: '.addSession("grades.php") ) ;
+    return;
 }
 
 // Set up the GET Params that we want to carry around.
