@@ -6,7 +6,7 @@ $REGISTER_LTI2 = array(
 "short_name" => "StickyGrader",
 "description" => "A tool to turn in a PDF file and allow it to be annotated with sticky notes and graded.",
     // By default, accept launch messages..
-    "messages" => array("launch"),
+    "messages" => array("launch", "launch_grade"),
     "privacy_level" => "name_only",  // anonymous, name_only, public
     "license" => "Apache",
     "languages" => array(
