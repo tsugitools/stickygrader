@@ -11,6 +11,8 @@ use \Tsugi\Core\LTIX;
 use \Tsugi\Grades\GradeUtil;
 use \Tsugi\Blob\BlobUtil;
 
+require_once "strlen.php";
+
 $LAUNCH = LTIX::requireData();
 
 $user_id = U::safe_href(U::get($_REQUEST, 'user_id'));
@@ -59,7 +61,7 @@ $gradesurl = Table::makeUrl('grades.php', $getparms);
 if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
 
     $percent = U::get($_POST, 'percent');
-    if ( strlen($percent) == 0 || $percent === null ) {
+    if ( U__strlen($percent) == 0 || $percent === null ) {
         $percent = null;
     } else if ( is_numeric($percent) ) {
         $percent = $percent + 0;
@@ -74,7 +76,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     $new_inst_note = U::get($_POST, 'inst_note');
     if ( $new_inst_note != $inst_note ) {
         $LAUNCH->result->setNote($new_inst_note, $user_id );
-        if ( strlen($success) > 0 ) $success .= ', ';
+        if ( U__strlen($success) > 0 ) $success .= ', ';
         $success .= 'Instructor note updated';
     }
 
@@ -88,7 +90,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         );
         $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log, $extra13); // This is the slow bit
         if ( $status === true ) {
-            if ( strlen($success) > 0 ) $success .= ', ';
+            if ( U__strlen($success) > 0 ) $success .= ', ';
             $success .= 'Grade submitted to server';
         } else {
             error_log("Problem sending grade ".$status);
@@ -100,7 +102,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     $update_json = false;
     if ( U::get($_POST, 'reset') == 'on' ||  U::get($_POST, 'delete') == 'on') {
         $json->annotations = array();
-        if ( strlen($success) > 0 ) $success .= ', ';
+        if ( U__strlen($success) > 0 ) $success .= ', ';
         $success .= 'Annotations reset';
         $update_json = true;
     }
@@ -108,7 +110,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
     if ( $file_id > 0 && U::get($_POST, 'delete') == 'on' ) {
         BlobUtil::deleteBlob($file_id);
         $json->file_id = false;
-        if ( strlen($success) > 0 ) $success .= ', ';
+        if ( U__strlen($success) > 0 ) $success .= ', ';
         $success .= 'PDF deleted';
         $update_json = true;
 /*
@@ -130,7 +132,7 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         $LAUNCH->result->setJsonForUser($json, $user_id);
     }
 
-    if ( strlen($success) > 0 ) $_SESSION['success'] = $success;
+    if ( U__strlen($success) > 0 ) $_SESSION['success'] = $success;
 
     header( 'Location: '.addSession($gradeurl) ) ;
     return;
@@ -188,7 +190,7 @@ echo('<label for="delete">Delete PDF and allow re-submit:</label>
 
 echo('<label for="inst_note">Instructor Note To Student</label><br/>
       <textarea name="inst_note" id="inst_note" style="width:60%" rows="5">');
-echo(htmlentities($inst_note));
+echo(htmlentities($inst_note ?? ''));
 echo('</textarea><br/>
       <input type="submit" name="instSubmit" value="Update" class="btn btn-primary">');
 
