@@ -46,7 +46,7 @@ $file_id = $LAUNCH->result->getJsonKeyForUser('file_id', false, $user_id);
 // Load and parse the old JSON
 $json = $LAUNCH->result->getJsonForUser($user_id);
 if ( is_string($json) ) $json = json_decode($json);
-if ( ! is_object($json) == null ) $json = new \stdClass();
+if ( ! is_object($json) ) $json = new \stdClass();
 
 $old_grade = $row ? $row['grade'] : 0;
 $old_percent = (int) ($old_grade * 100);
