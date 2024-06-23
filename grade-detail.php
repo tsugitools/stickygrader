@@ -18,6 +18,7 @@ $for_user = false;
 if ( ! $user_id && isset($LAUNCH->for_user) ) {
     $for_user = true;
     $user_id = $LAUNCH->for_user->id;
+    error_log("Direct instructor launch to grade user ".$user_id);
 }
 
 if ( ! $user_id ) {
