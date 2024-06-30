@@ -86,6 +86,11 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
             LTI13::ACTIVITY_PROGRESS => LTI13::ACTIVITY_PROGRESS_COMPLETED,
             LTI13::GRADING_PROGRESS => LTI13::GRADING_PROGRESS_FULLYGRADED,
         );
+        $inst_note = $LAUNCH->result->getNote($user_id);
+        if ( is_string($inst_note) && strlen($inst_note) > 1 ) {
+            $extra13[LTI13::LINEITEM_COMMENT] = $inst_note;
+        }
+
         $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log, $extra13); // This is the slow bit
         if ( $status === true ) {
             if ( strlen($success ?? '') > 0 ) $success .= ', ';
