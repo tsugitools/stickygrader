@@ -116,18 +116,30 @@ if ( isset($_POST['instSubmit']) || isset($_POST['instSubmitAdvance']) ) {
         if ( strlen($success ?? '') > 0 ) $success .= ', ';
         $success .= 'PDF deleted';
         $update_json = true;
-/*
+
         // Let the LMS know that we are back to ungraded...
         $result = Result::lookupResultBypass($user_id);
+        $resend_grade = U::get($result, 'grade');
+        if ( ! is_numeric($resend_grade) ) {
+            $resend_grade = 0.0;
+        } else {
+            $resend_grade = floatval($resend_grade);
+        }
         $result['grade'] = -1; // Force resend
         $debug_log = array();
-        $computed_grade = null;
         $extra13 = array(
             LTI13::ACTIVITY_PROGRESS => LTI13::ACTIVITY_PROGRESS_INITIALIZED,
             LTI13::GRADING_PROGRESS => LTI13::GRADING_PROGRESS_PENDINGMANUAL,
         );
-        $status = $LAUNCH->result->gradeSend($computed_grade, $result, $debug_log, $extra13); // This is the slow bit
-*/
+        $status = $LAUNCH->result->gradeSend($resend_grade, $result, $debug_log, $extra13); // This is the slow bit
+        if ( $status === true ) {
+            if ( strlen($success ?? '') > 0 ) $success .= ', ';
+            $success .= 'Re-submit status sent to LMS';
+        } else {
+            error_log("Problem sending re-submit status ".$status);
+            $_SESSION['error'] = 'Error sending re-submit status to: '.$status;
+            $_SESSION['debug_log'] = $debug_log;
+        }
     }
 
     if ( $update_json ) {
