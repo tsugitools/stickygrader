@@ -23,7 +23,7 @@ if ( ! $user_id && isset($LAUNCH->for_user) ) {
 
 if ( ! $user_id ) {
     $_SESSION['error'] = 'User has no submission';
-    header( 'Location: '.addSession("grades.php") ) ;
+    header( 'Location: '.addSession("error.php") ) ;
     return;
 }
 
