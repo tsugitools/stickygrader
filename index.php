@@ -19,11 +19,9 @@ $user_id = U::safe_href(U::get($_GET, 'user_id'));
 $message_type = $LAUNCH->ltiMessageType();
 error_log("message_type=".$message_type);
 
-$for_user_checked = U::get($_SESSION, 'for_user_checked');
-if ( ! $for_user_checked && ! $user_id && isset($LAUNCH->for_user) ) {
+if ( ! $user_id && isset($LAUNCH->for_user) ) {
     error_log("Using for_user to edit user_id=".$LAUNCH->for_user->id);
     $redirect = addSession("grade-detail.php?for_user=yes&user_id=".$LAUNCH->for_user->id);
-    $_SESSION['for_user_checked'] = true;
     header("Location: ".$redirect);
     return;
 }
